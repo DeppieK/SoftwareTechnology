@@ -1,0 +1,174 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
+    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+    <title>e-Books</title>
+    <style>
+        /*Styling using css*/
+        h2 {
+            font-family: Copperplate;
+            font-size: 35px;
+            font-weight: lighter;
+            text-align: left;
+        }
+        h3 {
+            font-size: 30px;
+            text-align: center;
+            font-weight: lighter;
+        }
+        body{
+            margin: 0px 0px 0px 0px;
+            color: black;
+            font-family: Copperplate;
+            background-color:white;
+        }
+        hr{
+            border: 0.5px solid black;
+            text-align:center;
+            margin-right: auto;
+        }
+        header{
+            margin: 0px 0px 0px 0px;
+            background-color:#ffa434;
+
+        }
+        ul{
+            font-weight:none;
+            list-style-type: none;
+            list-style-position: outside;
+            margin: 5px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        li{
+            float: right;
+        }
+
+        li a {
+            font-size: 17px;
+            text-decoration: none;
+            display: grid;
+            color:rgba(255, 255, 255, 0.76);
+            text-align: center;
+            padding: 10px 15px;
+        }
+        .hover:hover {
+            background-color:#ff6d1fd4;
+        }
+
+        .active {
+            background-color: #ff6d1fb8;
+        }
+        img{
+            margin: 10px;
+            max-width: 50%;
+        }
+        img:hover{
+            transform: scale(1.1);
+
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+        input[type=search] {
+            width: 130px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-image: url('searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        input[type=search]:focus {
+            width: 100%;
+        }
+        #books{
+            font-weight:none;
+            list-style-type: none;
+            list-style-position: outside;
+            margin: 5px;
+            padding: 20px;
+            overflow: hidden;
+            float: left;
+            text-align: center;
+            display: grid;
+
+        }
+        .href {
+            font-family: Copperplate;
+            color:white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<header>
+    <table>
+        <tr>
+            <td style = "font-size: 35px; color:white;">
+                <a th:href="@{/books}"  class="href"> e-Books</a>
+            </td>
+            <td>
+                <form th:action="@{/books/search}">
+                    <input type="search" placeholder="Search books, authors, ISBNs..." name = "query" >
+                </form>
+
+            </td>
+            <td>
+
+                <ul>
+                    <li class = "hover"><a href="#">(my acc?)</a></li>
+                    <li class = "hover"><a href="#">Sign in</a></li>
+                    <li class = "hover"><a href="#">(shop by?)</a></li>
+                    <li class = "hover"><a class="active" href="#Home">Home</a></li>
+                </ul>
+
+            </td>
+            <td>
+                <a th:href="@{/cart}" class="href">Cart :)</a>
+            </td>
+
+        </tr>
+    </table>
+
+</header>
+<br/>
+<hr/>
+<h3>
+    Welcome to e-Books! Here you can find all different kinds of books!
+</h3>
+<br/>
+
+
+
+    <ul>
+        <li th:each="book:${books}"  id =
+                "books ">
+            <a th:href="@{/books/{bookId}(bookId = ${book.id})}">
+                <img th:src ="${book.photourl}"/>
+            </a>
+            <p th:text="${book.title}"></p>
+        </li>
+    </ul>
+
+
+</body>
+
+</html>

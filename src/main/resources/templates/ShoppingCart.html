@@ -1,0 +1,191 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <title>e-Books Shopping Cart</title>
+  <style>
+    body {
+      font-family: Copperplate;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color:#ffa434;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .cart-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-item {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .cart-item-price {
+      font-size: 16px;
+      color: #333;
+      margin: 5px 0;
+    }
+
+    .cart-item-quantity {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    .cart-total {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .checkout-button {
+      display: block;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .checkout-button:hover {
+      background-color: #555;
+    }
+    ul{
+      font-weight:none;
+      list-style-type: none;
+      list-style-position: outside;
+      margin: 5px;
+      padding: 20px;
+      overflow: hidden;
+    }
+    li{
+      float: right;
+    }
+
+    li a {
+      font-size: 17px;
+      text-decoration: none;
+      display: grid;
+      color:rgba(255, 255, 255, 0.76);
+      text-align: center;
+      padding: 10px 15px;
+    }
+    .hover:hover {
+      background-color:#ff6d1fd4;
+    }
+
+    .active {
+      background-color: #ff6d1fb8;
+    }
+    .href {
+      font-family: Copperplate;
+      color:white;
+      text-decoration: none;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <table>
+    <tr>
+      <td style = "font-size: 35px; color:white;">
+        <a th:href="@{/books}"  class="href"> e-Books</a>
+      </td>
+      <td>
+        <ul>
+          <li class = "hover"><a href="#">(my acc?)</a></li>
+          <li class = "hover"><a href="#">Sign in</a></li>
+          <li class = "hover"><a href="#">(shop by?)</a></li>
+          <li class = "hover"><a class="active" href="#Home">Home</a></li>
+        </ul>
+
+      </td>
+      <td>
+        <a th:href="@{/cart}" class="href">Cart :)</a>
+      </td>
+
+    </tr>
+  </table>
+
+</header>
+<h1>Shopping Cart</h1>
+<div class ="row">
+  <div class = "col">
+    <th:block th:each="cartItem : ${cartItems}" class="cart-item">
+      <div class = "col">
+        <div><a class="remove icon" th:href="@{/removeFromCart(bookId=${cartItem.book.id})}">remove icon</a></div>
+      </div>
+      <div class = "col">
+        <img th:src="${cartItem.book.photourl}" alt="Product Image" />
+      </div>
+      <div class = "col">
+        <a th:href="@{/books/{bookId}(bookId = ${cartItem.book.id})}">
+          <p class="cart-item-title" th:text="${cartItem.book.title}"></p>
+        </a>
+      </div>
+      <div><input type = "number" th:value="${cartItem.quantity}"> </div>
+      <div>
+        <span>
+          X
+        </span>
+        <span>
+          [[${cartItem.book.price}]]
+        </span>
+        <div>
+          <span> = </span>
+          <span>
+            [[subtotal]]
+          </span>
+        </div>
+      </div>
+    </th:block>
+  </div>
+  <div>
+    <span>Estimated Total:</span>
+  </div>
+  <div><button class="checkout-button">Checkout</button></div>
+</div>
+</body>
+</html>

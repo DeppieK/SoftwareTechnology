@@ -1,0 +1,172 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <title>e-Books</title>
+
+    <style>
+        h2 {
+            font-family: Copperplate;
+            font-size: 35px;
+            font-weight: lighter;
+            text-align: left;
+        }
+        h3 {
+            font-size: 30px;
+            text-align: center;
+            font-weight: lighter;
+        }
+        body{
+            margin: 0px 0px 0px 0px;
+            color: black;
+            font-family: Copperplate;
+            background-color:white;
+        }
+        hr{
+            border: 0.5px solid black;
+            text-align:center;
+            margin-right: auto;
+        }
+        header{
+            margin: 0px 0px 0px 0px;
+            background-color:#ffa434;
+
+        }
+        ul{
+            font-weight:none;
+            list-style-type: none;
+            list-style-position: outside;
+            margin: 5px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        li {
+            float: right;
+        }
+
+        li a {
+            font-size: 17px;
+            text-decoration: none;
+            display: grid;
+            color:rgba(255, 255, 255, 0.76);
+            text-align: center;
+            padding: 10px 15px;
+        }
+        li a:hover {
+            background-color:#ff6d1fd4;
+        }
+
+        .active {
+            background-color: #ff6d1fb8;
+        }
+        img{
+            margin: 10px;
+            width: 50%; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */            }
+        table {
+            border-collapse: collapse;
+            width: 70%;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+        input[type=search] {
+            width: 130px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        input[type=search]:focus {
+            width: 100%;
+        }
+        .href {
+            font-family: Copperplate;
+            color:white;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+<header>
+    <table>
+        <tr>
+            <td style = "font-size: 35px; color:white;">
+                <a th:href="@{/books}" class="href">e-Books</a>
+            </td>
+            <td>
+                <form th:action="@{/books/search}">
+                    <input type="search" placeholder="Search books, authors, ISBNs..." name="query">
+                </form>
+            </td>
+            <td>
+                <ul>
+                    <li><a href="#">(my acc?)</a></li>
+                    <li><a href="#">Sign in</a></li>
+                    <li><a href="#">(shop by?)</a></li>
+                    <li><a class="active" href="#Home">Home</a></li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="@{/cart}" class="href">Cart :)</a>
+            </td>
+
+        </tr>
+    </table>
+</header>
+<table>
+    <tr>
+        <td>
+            <img th:src ="${book.photourl}"/></td>
+        <td>
+            <table>
+                <tr>
+                    <td><p th:text = "${book.title}"></p></td><td><p th:text = "${book.price}"></p></td>
+                </tr>
+                <tr>
+                    <td><form th:action="@{/addToCart}" method="post">
+                        <input type="hidden" name="bookId" th:name="bookId" th:value="${book.id}" />
+                        <input type="number" name="quantity" th:name="quantity" value="1" min="1" /> <!-- Set a minimum value of 1 -->
+                        <button type="submit">Add to Cart</button>
+                    </form></td>
+                </tr>
+                <tr>
+                    <td><p th:text="${book.availability ? 'Available' : 'Not available'}"></p></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td><b>Writer</b><br><p th:text = "${book.author}"></p></td>
+                </tr>
+                <tr>
+                    <td><b>Publisher</b><br><p th:text = "${book.publisher}"></p></td>
+                </tr>
+                <tr>
+                    <td><b>ISBN</b><br><p th:text = "${book.ISBN}"></p></td>
+                </tr>
+            </table>
+        </td>
+        <td><p th:text = "${book.description}"></p></tr>
+</table>
+</body>
+</html>
