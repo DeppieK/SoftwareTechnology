@@ -30,6 +30,11 @@ public class CartController {
         model.addAttribute("cartItems", cartItems);
         return "ShoppingCart";
     }
+    @GetMapping("/checkout")
+    public String cartCheckout() {
+
+        return "checkout";
+    }
     @PostMapping("/addToCart")
     public String addToCart(@RequestParam("bookId") Long bookId/*, HttpSession session*/,@RequestParam("quantity") Integer quantity) throws ChangeSetPersister.NotFoundException {
         Book bookToAdd = bookService.findBookById(bookId);

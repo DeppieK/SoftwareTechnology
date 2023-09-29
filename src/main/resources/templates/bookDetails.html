@@ -9,7 +9,7 @@
 
     <style>
         h2 {
-            font-family: Copperplate;
+            font-family: Arial, sans-serif;
             font-size: 35px;
             font-weight: lighter;
             text-align: left;
@@ -22,7 +22,7 @@
         body{
             margin: 0px 0px 0px 0px;
             color: black;
-            font-family: Copperplate;
+            font-family: Arial, sans-serif;
             background-color:white;
         }
         hr{
@@ -76,25 +76,30 @@
             text-align: center;
         }
         input[type=search] {
-            width: 130px;
+            width: 100%;
             box-sizing: border-box;
             border: 2px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
             background-color: white;
-            background-position: 10px 10px;
+            background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png");
+            background-position: 5px center; /* Adjust the horizontal position */
             background-repeat: no-repeat;
-            padding: 12px 20px 12px 40px;
+            padding: 12px 20px 12px 30px; /* Adjust the right padding for the icon */
             transition: width 0.4s ease-in-out;
+            background-size: 20px auto; /* Adjust the size of the icon */
         }
 
         input[type=search]:focus {
             width: 100%;
         }
         .href {
-            font-family: Copperplate;
+            font-family: Arial, sans-serif;
             color:white;
             text-decoration: none;
+        }
+        input[type=number] {
+            width: 30px;
         }
 
     </style>
@@ -121,7 +126,7 @@
                 </ul>
             </td>
             <td>
-                <a th:href="@{/cart}" class="href">Cart :)</a>
+                <a th:href="@{/cart}" class="href"><img src="https://png2.cleanpng.com/sh/4f754824ed4ba2ce85ccf561baa1f5be/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
             </td>
 
         </tr>
