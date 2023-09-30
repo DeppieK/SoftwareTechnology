@@ -21,7 +21,7 @@ public class BookServiceImpl implements BookSearchService {
 
     @Override
     public List<Book> searchBooks(String query) {
-        List<Book> books = bookRepository.searchBooks(query);
+        List<Book> books = bookRepository.findByTitleIgnoreCaseContaining(query);
         return books;
     }
 

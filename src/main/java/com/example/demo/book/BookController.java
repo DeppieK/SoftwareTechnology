@@ -56,6 +56,16 @@ public class BookController {
         model.addAttribute("books", books);
         return "welcomePage"; // Replace with the appropriate view name
     }
+    @GetMapping("/signIn")
+    public String signIn() {
+
+        return "signIn";
+    }
+    @GetMapping("/signUp")
+    public String signUn() {
+
+        return "signUp";
+    }
 
 
 
