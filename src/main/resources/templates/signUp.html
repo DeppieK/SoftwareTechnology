@@ -1,23 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title>e-Books</title>
+    <title>Sign Up</title>
     <style>
-        /*Styling using css*/
-        h2 {
-            font-family: Arial, sans-serif;
-            font-size: 35px;
-            font-weight: lighter;
-            text-align: left;
-        }
-        h3 {
-            font-size: 30px;
-            text-align: center;
-            font-weight: lighter;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         body{
             margin: 0px 0px 0px 0px;
@@ -25,6 +14,73 @@
             font-family: Arial, sans-serif;
             background-color:white;
         }
+        .container {
+            background-color: #fff;
+            padding: 40px; /* Increased padding */
+            width: 500px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #ffa434;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #ffb050ee;
+        }
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            margin: 0;
+            background-color: white;
+        }
+        h2 {
+            font-family: Arial, sans-serif;
+            font-size: 35px;
+            font-weight: lighter;
+            text-align: center;
+        }
+        h3 {
+            font-size: 30px;
+            text-align: center;
+            font-weight: lighter;
+        }
+
         hr{
             border: 0.5px solid black;
             text-align:center;
@@ -103,25 +159,10 @@
             color:white;
             text-decoration: none;
         }
-        #books {
-            text-align: left;
-        }
-        .books {
-            margin: 0px 30px 0px 0px;
-            text-align: center;
-            display: flex; /* Use flexbox to align images horizontally */
-            flex-wrap: wrap; /* Wrap images to the next row when necessary */
-            justify-content: flex-start; /* Align images to the left */
-        }
-        .books li {
-            margin: 10px; /* Add margin around each book */
-            text-align: center;
-        }
+
 
     </style>
-
 </head>
-
 <body>
 <header>
     <table>
@@ -153,25 +194,41 @@
     </table>
 
 </header>
-<br/>
-<hr/>
-<h3>
-    Welcome to e-Books! Here you can find all different kinds of books!
-</h3>
-<br/>
+<div class="center-container">
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form>
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required>
 
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
 
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-    <ul class="books">
-        <li th:each="book:${books}"  id ="books ">
-            <a th:href="@{/books/{bookId}(bookId = ${book.id})}">
-                <img th:src ="${book.photourl}"/>
-            </a>
-            <p th:text="${book.title}"></p>
-        </li>
-    </ul>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
 
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
 
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="role">Select Role:</label>
+            <select id="role" name="role" required>
+                <option value="user">User</option>
+                <option value="author">Author</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I agree to the terms and conditions</label>
+
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+</div>
 </body>
-
 </html>

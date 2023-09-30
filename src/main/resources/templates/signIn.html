@@ -1,12 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="x-apple-disable-message-reformatting">
-    <title>e-Books</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <style>
         h2 {
             font-family: Arial, sans-serif;
@@ -43,7 +40,7 @@
             padding: 20px;
             overflow: hidden;
         }
-        li {
+        li{
             float: right;
         }
 
@@ -55,7 +52,7 @@
             text-align: center;
             padding: 10px 15px;
         }
-        li a:hover {
+        .hover:hover {
             background-color:#ff6d1fd4;
         }
 
@@ -64,11 +61,15 @@
         }
         img{
             margin: 10px;
-            width: 50%; /* Adjust the width as needed */
-            height: auto; /* Maintain aspect ratio */            }
+            max-width: 50%;
+        }
+        img:hover{
+            transform: scale(1.1);
+
+        }
         table {
             border-collapse: collapse;
-            width: 70%;
+            width: 100%;
         }
 
         td {
@@ -93,37 +94,102 @@
         input[type=search]:focus {
             width: 100%;
         }
+
         .href {
             font-family: Arial, sans-serif;
             color:white;
             text-decoration: none;
         }
-        input[type=number] {
-            width: 30px;
+        /* Reset some default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        .login-container {
+
+            background-color: #fff;
+            padding: 40px; /* Increased padding */
+            width: 400px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px; /* Increased margin-bottom */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ffa434;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #ffb050ee;
+        }
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            margin: 0;
+            background-color: white;
+        }
+        .href_2 {
+            font-family: Arial, sans-serif;
+            color: black;
+            font-weight: normal;
         }
 
     </style>
 </head>
-
 <body>
 <header>
     <table>
         <tr>
             <td style = "font-size: 35px; color:white;">
-                <a th:href="@{/books}" class="href">e-Books</a>
+                <a th:href="@{/books}"  class="href"> e-Books</a>
             </td>
             <td>
                 <form th:action="@{/books/search}">
-                    <input type="search" placeholder="Search books, authors, ISBNs..." name="query">
+                    <input type="search" placeholder="Search books, authors, ISBNs..." name = "query" >
                 </form>
+
             </td>
             <td>
+
                 <ul>
-                    <li><a href="#">(my acc?)</a></li>
+                    <li class = "hover"><a href="#">(my acc?)</a></li>
                     <li class = "hover"><a th:href="@{/signIn}">Sign in</a></li>
-                    <li><a href="#">(shop by?)</a></li>
-                    <li><a class="active" href="#Home">Home</a></li>
+                    <li class = "hover"><a href="#">(shop by?)</a></li>
+                    <li class = "hover"><a class="active" href="#Home">Home</a></li>
                 </ul>
+
             </td>
             <td>
                 <a th:href="@{/cart}" class="href"><img src="https://png2.cleanpng.com/sh/4f754824ed4ba2ce85ccf561baa1f5be/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
@@ -131,47 +197,24 @@
 
         </tr>
     </table>
-</header>
-<table>
-    <tr>
-        <td>
-            <img th:src ="${book.photourl}"/></td>
-        <td>
-            <table>
-                <tr>
-                    <td><p th:text = "${book.title}"></p></td><td><p th:text = "${book.price}"></p></td>
-                </tr>
-                <tr>
-                    <td><form th:action="@{/addToCart}" method="post">
-                        <input type="hidden" name="bookId" th:name="bookId" th:value="${book.id}" />
-                        <input type="number" name="quantity" th:name="quantity" value="1" min="1" /> <!-- Set a minimum value of 1 -->
-                        <button type="submit">Add to Cart</button>
-                    </form></td>
-                </tr>
-                <tr>
-                    <td><p th:text="${book.availability ? 'Available' : 'Not available'}"></p></td>
-                </tr>
 
-            </table>
-        </td>
-    </tr>
-</table>
-<table>
-    <tr>
-        <td>
-            <table>
-                <tr>
-                    <td><b>Writer</b><br><p th:text = "${book.author}"></p></td>
-                </tr>
-                <tr>
-                    <td><b>Publisher</b><br><p th:text = "${book.publisher}"></p></td>
-                </tr>
-                <tr>
-                    <td><b>ISBN</b><br><p th:text = "${book.ISBN}"></p></td>
-                </tr>
-            </table>
-        </td>
-        <td><p th:text = "${book.description}"></p></tr>
-</table>
+</header>
+<div class="center-container">
+    <div class="login-container">
+        <h2>Sign in</h2>
+        <form>
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        Not a member? <a th:href="@{/signUp}" class = "href_2">Sign up</a>
+    </div>
+</div>
 </body>
 </html>
