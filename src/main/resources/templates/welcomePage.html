@@ -25,11 +25,7 @@
             font-family: Arial, sans-serif;
             background-color:white;
         }
-        hr{
-            border: 0.5px solid black;
-            text-align:center;
-            margin-right: auto;
-        }
+
         header{
             margin: 0px 0px 0px 0px;
             background-color:#ffa434;
@@ -154,7 +150,6 @@
 
 </header>
 <br/>
-<hr/>
 <h3>
     Welcome to e-Books! Here you can find all different kinds of books!
 </h3>
@@ -163,7 +158,7 @@
 
 
     <ul class="books">
-        <li th:each="book:${books}"  id ="books ">
+        <li th:each="book : ${books}" th:if="${book.id le 12}" id="books">
             <a th:href="@{/books/{bookId}(bookId = ${book.id})}">
                 <img th:src ="${book.photourl}"/>
             </a>
