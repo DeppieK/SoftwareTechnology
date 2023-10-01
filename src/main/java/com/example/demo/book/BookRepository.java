@@ -12,12 +12,16 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
 
-        List<Book> findByTitleIgnoreCaseContaining(String title);
 
         // Add more query methods as needed
 
-    @Query("SELECT b FROM Book b WHERE b.title LIKE CONCAT('%',:query,'%') OR b.author LIKE CONCAT('%',:query,'%') OR b.genre LIKE CONCAT('%',:query,'%') OR b.publisher LIKE CONCAT('%',:query,'%') OR CAST(b.ISBN AS STRING) LIKE CONCAT('%',:query,'%')")
-    List<Book> searchBooks(@Param("query") String query);
+        @Query("SELECT b FROM Book b WHERE " +
+                "LOWER(b.title) LIKE CONCAT('%', LOWER(:query), '%') OR " +
+                "LOWER(b.author) LIKE CONCAT('%', LOWER(:query), '%') OR " +
+                "LOWER(b.genre) LIKE CONCAT('%', LOWER(:query), '%') OR " +
+                "LOWER(b.publisher) LIKE CONCAT('%', LOWER(:query), '%') OR " +
+                "CAST(b.ISBN AS STRING) LIKE CONCAT('%', LOWER(:query), '%')")
+        List<Book> searchBooks(@Param("query") String query);
 
     List<Book> findByISBN(Long isbn);
 
