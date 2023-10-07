@@ -31,8 +31,7 @@ public class CartController {
         return "ShoppingCart";
     }
     @GetMapping("/checkout")
-    public String cartCheckout() {
-
+    public String cartCheckout(){
         return "checkout";
     }
     @PostMapping("/addToCart")

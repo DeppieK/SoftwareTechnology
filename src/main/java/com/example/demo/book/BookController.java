@@ -48,13 +48,31 @@ public class BookController {
     public String searchBooks(@RequestParam(value = "query") String query, Model model){
         List<Book> books = bookSearchService.searchBooks(query);
         model.addAttribute("books",books);
-        return "welcomePage";
+        return "genres";
     }
     @GetMapping("/books/isbn/{isbn}")
     public String findBooksByISBN(@PathVariable("isbn") Long isbn, Model model) {
         List<Book> books = bookRepository.findByISBN(isbn);
         model.addAttribute("books", books);
         return "welcomePage"; // Replace with the appropriate view name
+    }
+    @GetMapping("/books/genre/{genre}")
+    public String findBooksByGenre(@PathVariable("genre") String genre, Model model) {
+        List<Book> books = bookRepository.findByGenre(genre);
+        model.addAttribute("books", books);
+        return "genres"; // Replace with the appropriate view name
+    }
+    @GetMapping("/books/author/{author}")
+    public String findBooksByAuthor(@PathVariable("author") String author, Model model) {
+        List<Book> books = bookRepository.findByAuthor(author);
+        model.addAttribute("books", books);
+        return "genres"; // Replace with the appropriate view name
+    }
+    @GetMapping("/books/publisher/{publisher}")
+    public String findBooksByPublisher(@PathVariable("publisher") String publisher, Model model) {
+        List<Book> books = bookRepository.findByPublisher(publisher);
+        model.addAttribute("books", books);
+        return "genres"; // Replace with the appropriate view name
     }
     @GetMapping("/signIn")
     public String signIn() {
