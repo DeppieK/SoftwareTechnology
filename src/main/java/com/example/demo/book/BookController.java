@@ -129,6 +129,16 @@ public class BookController {
 
         return "signUp";
     }
+    @GetMapping("/logout")
+    public String logout() {
+
+        return "redirect:/books";
+    }
+    @GetMapping("/myAccount")
+    public String myAccount() {
+
+        return "myAcoount";
+    }
 
 
 

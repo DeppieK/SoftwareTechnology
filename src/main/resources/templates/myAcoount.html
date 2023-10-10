@@ -168,7 +168,7 @@
                     <ul>
                         <li class="hover">
                             <a th:if="${baseURL == ''}" th:href="${baseURL + '/signIn'}" th:text="'Sign in'">Sign in</a>
-                            <a th:if="${baseURL != ''}" th:href="${baseURL + '/myAccount'}" th:text="'My Account'">My Account</a>
+                            <a th:if="${baseURL != ''}" th:href="${baseURL + '/myAccount'}" th:text="'My Account'" class="active" >My Account</a>
                         </li>
                         <li class="dropdown">
                             <a class="hover">Genres</a>
@@ -183,7 +183,7 @@
                                 <li class="hover"><a th:href="${baseURL + '/books/genre/biography'}">Biography</a></li>
                             </ul>
                         </li>
-                        <li class="hover"><a class="active" th:href="${baseURL + '/books'}" >Home</a></li>
+                        <li class="hover"><a th:href="${baseURL + '/books'}" >Home</a></li>
                     </ul>
                 </nav>
 
@@ -197,24 +197,10 @@
     </table>
 
 </header>
-<br/>
-<h3>
-    Welcome to e-Books! Here you can find all different kinds of books!
-</h3>
-<br/>
 
-
-
-    <ul class="books">
-        <li th:each="book : ${books}" th:if="${book.id le 12}" id="books">
-            <a th:href="@{books/{bookId}(bookId = ${book.id})}">
-                <img th:src ="${book.photourl}"/>
-            </a>
-            <p th:text="${book.title}"></p>
-        </li>
-    </ul>
-
+<a th:href="@{'/books'}">Logout</a>
 
 </body>
 
 </html>
+

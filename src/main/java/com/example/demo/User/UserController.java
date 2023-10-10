@@ -86,25 +86,25 @@ public class UserController {
     public String findBooksByISBN(@PathVariable("isbn") Long isbn, Model model) {
         List<Book> books = bookRepository.findByISBN(isbn);
         model.addAttribute("books", books);
-        return "welcomePage"; // Replace with the appropriate view name
+        return "welcomePage";
     }
     @GetMapping("/books/genre/{genre}")
     public String findBooksByGenre(@PathVariable("genre") String genre, Model model) {
         List<Book> books = bookRepository.findByGenre(genre);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
     @GetMapping("/books/author/{author}")
     public String findBooksByAuthor(@PathVariable("author") String author, Model model) {
         List<Book> books = bookRepository.findByAuthor(author);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
     @GetMapping("/books/publisher/{publisher}")
     public String findBooksByPublisher(@PathVariable("publisher") String publisher, Model model) {
         List<Book> books = bookRepository.findByPublisher(publisher);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
     @GetMapping("/signIn")
     public String signIn() {
@@ -115,6 +115,16 @@ public class UserController {
     public String signUp() {
 
         return "signUp";
+    }
+    @GetMapping("/logout")
+    public String logout() {
+
+        return "redirect:/books";
+    }
+    @GetMapping("/myAccount")
+    public String myAccount() {
+
+        return "myAcoount";
     }
     @GetMapping("/cart")
     public String cartList(Model model) {

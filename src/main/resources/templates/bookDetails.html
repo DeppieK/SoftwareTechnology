@@ -255,10 +255,12 @@
             <td>
                 <nav>
                     <ul>
-                        <li class="hover"><a href="#">(my acc?)</a></li>
-                        <li class="hover"><a th:href="${baseURL + '/signIn'}">Sign in</a></li>
+                        <li class="hover">
+                            <a th:if="${baseURL == ''}" th:href="${baseURL + '/signIn'}" th:text="'Sign in'">Sign in</a>
+                            <a th:if="${baseURL != ''}" th:href="${baseURL + '/myAccount'}" th:text="'My Account'">My Account</a>
+                        </li>
                         <li class="dropdown">
-                            <a class="hover" href="#">Genres</a>
+                            <a class="hover">Genres</a>
                             <ul class="dropdown-menu">
                                 <li class="hover"><a th:href="${baseURL + '/books/genre/romance'}" >Romance</a></li>
                                 <li class="hover"><a th:href="${baseURL + '/books/genre/romcom'}">RomComs</a></li>

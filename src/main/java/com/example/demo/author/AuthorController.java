@@ -122,6 +122,16 @@ public class AuthorController {
 
         return "signUp";
     }
+    @GetMapping("/logout")
+    public String logout() {
+
+        return "redirect:/books";
+    }
+    @GetMapping("/myAccount")
+    public String myAccount() {
+
+        return "myAcoount";
+    }
     @GetMapping("/cart")
     public String cartList(Model model) {
         List<Cart> cartItems = cartService.getCartItems();
