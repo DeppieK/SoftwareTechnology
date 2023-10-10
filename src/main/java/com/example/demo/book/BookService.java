@@ -22,17 +22,16 @@ public class BookService {
     }
 
     public Book findBookById(Long bookId) throws ChangeSetPersister.NotFoundException {
-        // Use the bookRepository to find the book by its ID
-        // Assuming that your BookRepository has a method like findById
-        // Replace BookRepository::findById with the actual method if needed
         Optional<Book> optionalBook = bookRepository.findById(bookId);
-
         if (optionalBook.isPresent()) {
             return optionalBook.get();
         } else {
-            // Handle the case where the book is not found, e.g., throw an exception
             throw new ChangeSetPersister.NotFoundException();
         }
+    }
+    public Book getBookById(Long bookId) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        return optionalBook.orElse(null); // Handle the case where the book is not found
     }
 
 
