@@ -1,7 +1,5 @@
-package com.example.demo.author;
+package com.example.demo.User;
 
-
-import com.example.demo.User.UserEntityService;
 import com.example.demo.book.Book;
 import com.example.demo.book.BookRepository;
 import com.example.demo.book.BookSearchService;
@@ -17,12 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @Controller
-@RequestMapping("/author/{userId}")
-public class AuthorController {
+@RequestMapping("/user/{userId}")
+public class UserController {
 
     private final BookService bookService;
     private final BookSearchService bookSearchService;
@@ -31,7 +28,7 @@ public class AuthorController {
     private final CommentsService commentsService;
     private final UserEntityService userEntityService;
 
-    public AuthorController(BookService bookService, BookSearchService bookSearchService, BookRepository bookRepository, CartService cartService, CommentsService commentsService, UserEntityService userEntityService) {
+    public UserController(BookService bookService, BookSearchService bookSearchService, BookRepository bookRepository, CartService cartService, CommentsService commentsService, UserEntityService userEntityService) {
         this.bookService = bookService;
         this.bookSearchService = bookSearchService;
         this.bookRepository = bookRepository;
@@ -39,12 +36,10 @@ public class AuthorController {
         this.commentsService = commentsService;
         this.userEntityService = userEntityService;
     }
-
     @ModelAttribute("baseURL")
     public String baseURL(@PathVariable("userId") Long userId) {
-        return "/author/" + userId;
+            return "/user/" + userId;
     }
-
     @GetMapping("/books")
     public String listBooks(@PathVariable("userId") Long userId, Model model) {
         List<Book> books = bookService.getBook();
@@ -68,7 +63,6 @@ public class AuthorController {
     }
     @PostMapping("/books/addComment")
     public String addComment(@RequestParam Long bookId, @RequestParam String commentText,@PathVariable("userId") Long userId) {
-        // Retrieve the book based on the bookId (you'll need to implement this)
         Book book = bookService.getBookById(bookId);
 
         Comments comments = new Comments();
@@ -78,7 +72,7 @@ public class AuthorController {
 
         commentsService.saveComment(comments);
 
-        return "redirect:/author/{userId}/books/" + bookId;
+        return "redirect:/user/{userId}/books/" + bookId;
     }
 
 
@@ -138,14 +132,14 @@ public class AuthorController {
         /*Customer customer = (Customer) session.getAttribute("customer");*/
         cartService.addToCart(/*customer,*/ bookToAdd, quantity);
 
-        return "redirect:/author/{userId}/books/" + bookId;
+        return "redirect:/user/{userId}/books/" + bookId;
     }
     @GetMapping("/removeFromCart")
     public String removeFromCart(@RequestParam("bookId") Long bookId) throws ChangeSetPersister.NotFoundException {
         Book bookToRemove = bookService.findBookById(bookId);
         cartService.removeFromCart(bookToRemove);
 
-        return "redirect:/author/{userId}/cart";
+        return "redirect:/user/{userId}/cart";
     }
 
 }
