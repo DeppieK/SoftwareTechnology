@@ -24,6 +24,7 @@ public class CartService {
             // If the book is already in the cart, increase the quantity
             addedQuantity = existingCartItem.getQuantity() + quantity;
             existingCartItem.setQuantity(addedQuantity);
+            cartRepository.save(existingCartItem);
         } else {
             // If the book is not in the cart, create a new cart item
             Cart newCartItem = new Cart();

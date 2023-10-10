@@ -1,6 +1,6 @@
 package com.example.demo.cart;
+import com.example.demo.User.UserEntity;
 import com.example.demo.book.Book;
-import com.example.demo.customer.Customer;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,7 +24,7 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn
-    private Customer customer;
+    private UserEntity user;
 
     private int quantity;
 
@@ -34,16 +34,16 @@ public class Cart {
     public Cart(Book book, int i) {
     }
 
-    public Cart(Long id, Book book, Customer customer, int quantity) {
+    public Cart(Long id, Book book, UserEntity user, int quantity) {
         this.id = id;
         this.book = book;
-        this.customer = customer;
+        this.user = user;
         this.quantity = quantity;
     }
 
-    public Cart(Book book, Customer customer, int quantity) {
+    public Cart(Book book, UserEntity user, int quantity) {
         this.book = book;
-        this.customer = customer;
+        this.user = user;
         this.quantity = quantity;
     }
 
@@ -63,12 +63,12 @@ public class Cart {
         this.book = book;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(UserEntity user) {
+        this.user = user;
     }
 
     public int getQuantity() {
@@ -84,7 +84,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", book=" + book +
-                ", customer=" + customer +
+                ", customer=" + user +
                 ", quantity=" + quantity +
                 '}';
     }
