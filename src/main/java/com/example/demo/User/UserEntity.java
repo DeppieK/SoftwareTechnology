@@ -1,55 +1,54 @@
 package com.example.demo.User;
 
-
 import com.example.demo.Roles.Roles;
 import jakarta.persistence.*;
-import lombok.Data;
 
-import javax.management.relation.Role;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
     private Long id;
+
     private String username;
     private String password;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable
-    private List<Roles> roles = new ArrayList<>();
-
     private String fullname;
+
     private String email;
     private String phoneNumber;
-    private String address;
+    private String role;
 
 
     public UserEntity() {
     }
 
-    public UserEntity(String username, String password, List<Roles> roles, String fullname, String email, String phoneNumber, String address) {
+    public UserEntity( String username, String password, String fullname, String email, String phoneNumber, String role) {
         this.username = username;
         this.password = password;
-        this.roles = roles;
         this.fullname = fullname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
+        this.role = role;
     }
 
-    public UserEntity(Long id, String username, String password, List<Roles> roles, String fullname, String email, String phoneNumber, String address) {
+    public UserEntity(Long id, String username, String password, String role, String fullname, String email, String phoneNumber) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.roles = roles;
         this.fullname = fullname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
+        this.role = role;
     }
 
     public Long getId() {
@@ -76,14 +75,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    public List<Roles> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Roles> roles) {
-        this.roles = roles;
-    }
-
     public String getFullname() {
         return fullname;
     }
@@ -108,12 +99,12 @@ public class UserEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
+    public String getRole() {
+        return role;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -122,11 +113,10 @@ public class UserEntity {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
                 ", fullname='" + fullname + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

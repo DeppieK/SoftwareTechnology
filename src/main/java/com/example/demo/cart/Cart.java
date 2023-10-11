@@ -19,7 +19,7 @@ public class Cart {
     private Long id;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @ManyToOne
@@ -27,21 +27,17 @@ public class Cart {
     private UserEntity user;
 
     private int quantity;
-
-
     public Cart() {
     }
-    public Cart(Book book, int i) {
-    }
 
-    public Cart(Long id, Book book, UserEntity user, int quantity) {
-        this.id = id;
+    public Cart(Book book, UserEntity user, int quantity) {
         this.book = book;
         this.user = user;
         this.quantity = quantity;
     }
 
-    public Cart(Book book, UserEntity user, int quantity) {
+    public Cart(Long id, Book book, UserEntity user, int quantity) {
+        this.id = id;
         this.book = book;
         this.user = user;
         this.quantity = quantity;
@@ -67,7 +63,7 @@ public class Cart {
         return user;
     }
 
-    public void setCustomer(UserEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -84,7 +80,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", book=" + book +
-                ", customer=" + user +
+                ", user=" + user +
                 ", quantity=" + quantity +
                 '}';
     }

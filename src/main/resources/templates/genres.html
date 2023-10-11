@@ -143,6 +143,9 @@
       margin: 10px; /* Add margin around each book */
       text-align: center;
     }
+    #book-title{
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -151,7 +154,7 @@
   <table>
     <tr>
       <td style = "font-size: 35px; color:white;">
-        <a th:href="${baseURL + '/books'}">e-Books</a>
+        <a th:href="${baseURL + '/books'}" class="href">e-Books</a>
       </td>
       <td>
         <form th:action="${baseURL + '/books/search'}">
@@ -199,7 +202,7 @@
     <a th:href="@{|${baseURL}/books/${book.id}|}">
       <img th:src ="${book.photourl}"/>
     </a>
-    <p th:text="${book.title}"></p>
+    <p id="book-title" th:text="${book.title}"></p>
   </li>
 </ul>
 

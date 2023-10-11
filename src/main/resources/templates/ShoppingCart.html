@@ -239,7 +239,7 @@
           <p class="cart-item-title" th:text="${cartItem.book.title}"></p>
         </a>
       </div>
-      <div>&nbsp;&nbsp;<input type = "number" th:value="${cartItem.quantity}" value="1" min="1">
+      <div>&nbsp;&nbsp;<span th:text="${cartItem.quantity}"></span>
         <span>x</span>
         <span>[[${cartItem.book.price}]]</span>
         <span>&euro;</span>
@@ -255,9 +255,11 @@
     </th:block>
   <div>
     <span>Estimated Total:</span>
+    <span th:text="${totalPrice}"></span>
+    <span>&euro;</span>
   </div>
   <div>
-    <a th:href="@{/checkout}" class="checkout-button href">Checkout</a>
+    <a th:href="@{./checkout}" class="checkout-button href">Checkout</a>
   </div>
 </div>
 </body>

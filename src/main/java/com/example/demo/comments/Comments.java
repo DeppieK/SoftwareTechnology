@@ -4,6 +4,8 @@ import com.example.demo.User.UserEntity;
 import com.example.demo.book.Book;
 import jakarta.persistence.*;
 
+import java.util.Optional;
+
 @Entity
 @Table
 public class Comments {
@@ -23,8 +25,8 @@ public class Comments {
     @JoinColumn
     private Book book;
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne // Many comments can belong to one user
+    @JoinColumn(name = "user_id") // Define the foreign key column
     private UserEntity user;
     private int stars;
 

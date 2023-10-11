@@ -1,13 +1,296 @@
-<html>
-<body>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            margin: 0px 0px 0px 0px;
+            color: black;
+            font-family: Arial, sans-serif;
+            background-color:white;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px; /* Increased padding */
+            width: 500px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-<div th:if="${param.error}">
-    Username is taken!
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #ffa434;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #ffb050ee;
+        }
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            margin: 20px;
+            background-color: white;
+        }
+        h2 {
+            font-family: Arial, sans-serif;
+            font-size: 35px;
+            font-weight: lighter;
+            text-align: center;
+        }
+        h3 {
+            font-size: 30px;
+            text-align: center;
+            font-weight: lighter;
+        }
+
+
+        header{
+            margin: 0px 0px 0px 0px;
+            background-color:#ffa434;
+
+        }
+        ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            float: right;
+            position: relative;
+        }
+
+        li a {
+            font-size: 17px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.76);
+            text-align: center;
+            padding: 10px 15px;
+            display: block;
+        }
+        .hover:hover{
+            background-color: #ff6d1fd4;
+
+        }
+
+        /* Style for the dropdown menu */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color:#ffa434;
+            z-index: 1; /* Ensure the dropdown appears above other content */
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            display: block;
+        }
+
+        .dropdown-menu li a {
+            color: rgba(255, 255, 255, 0.76);
+            padding: 12px 22px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Hover style for dropdown items */
+        .dropdown-menu li a:hover {
+            background-color: #ff6d1fd4;
+        }
+
+        img{
+            margin: 10px;
+            max-width: 50%;
+        }
+        img:hover{
+            transform: scale(1.1);
+
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+        input[type=search] {
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png");
+            background-position: 5px center; /* Adjust the horizontal position */
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 30px; /* Adjust the right padding for the icon */
+            transition: width 0.4s ease-in-out;
+            background-size: 20px auto; /* Adjust the size of the icon */
+        }
+
+        input[type=search]:focus {
+            width: 100%;
+        }
+
+        .href {
+            font-family: Arial, sans-serif;
+            color:white;
+            text-decoration: none;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+    <table>
+        <tr>
+            <td style = "font-size: 35px; color:white;">
+                <a th:href="@{/books}"  class="href"> e-Books</a>
+            </td>
+            <td>
+                <form th:action="@{/books/search}">
+                    <input type="search" placeholder="Search books, authors, ISBNs..." name = "query" >
+                </form>
+
+            </td>
+            <td>
+                <nav>
+                    <ul>
+                        <li class="hover"><a th:href="@{/signIn}">Sign in</a></li>
+                        <li class="dropdown">
+                            <a class="hover">Genres</a>
+                            <ul class="dropdown-menu">
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = romance)}" >Romance</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = romcom)}">RomComs</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = thriller)}">Thriller</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = dark)}">Dark</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = mystery)}">Mystery</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = fantasy)}">Fantasy</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = drama)}">Drama</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = biography)}">Biography</a></li>
+                            </ul>
+                        </li>
+                        <li class="hover"><a th:href="@{/books}" >Home</a></li>
+                    </ul>
+                </nav>
+
+
+            </td>
+            <td>
+                <a th:href="@{/signIn}" class="href"><img src="https://png2.cleanpng.com/sh/535017851c0794eab90a0aff986be805/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
+            </td>
+
+        </tr>
+    </table>
+
+</header>
+<br><br><br><br>
+<div class="center-container">
+    <div class="container">
+
+
+
+
+
+        <h2>Sign Up</h2>
+        <form th:action="@{/register}" method="post" th:object="${user}">
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname"  th:field="*{fullname}" required>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" th:field="*{username}" required>
+
+
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:field="*{email}" required>
+
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phoneNumber" th:field="*{phoneNumber}" required>
+
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" th:field="*{password}" required>
+
+            <label for="role">Select Role:</label>
+            <select id="role" name="role" required>
+                <option value="Author">Author</option>
+                <option value="user">Other</option>
+
+
+            </select>
+
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I agree to the terms and conditions</label>
+
+            <input type="submit" value="Sign Up">
+            <span>Already registered?<a href="/" th:href="@{/login}">Login here</a></span>
+        </form>
+        <br><br><br><br>
+        <div th:if="${error}" class="alert alert-danger">
+            <p  style="color: red;" th:text="${error}"></p>
+        </div>
+
+
+    </div>
 </div>
-<form th:action="@{/register}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="registration"/></div>
-</form>
+
+
 </body>
+
 </html>
+
+

@@ -304,7 +304,7 @@
                             <form th:action="@{../addToCart}" method="post">
                                 <input type="hidden" name="bookId" th:name="bookId" th:value="${book.id}" />
                                 <input type="number" name="quantity" th:name="quantity" value="1" min="1" />
-                                <button type="submit">Add to Cart</button>
+                                <button type="submit" th:text="'Add to Cart'" th:if="${book.availability && !(baseURL == '')}">Add to Cart</button>
                             </form>
                         </td>
                     </tr>
@@ -339,19 +339,20 @@
 <div class="comments-reviews-container">
     <h3>Comments and Reviews</h3>
 
-    <!-- Iterate over comments and display them -->
     <div th:each="comment : ${comments}" class="comment">
-        <p><span th:text="${comment.user.username}"></span> says:</p>
+        <p>
+            <span th:text="${comment.user.username}"></span>
+            <span th:if="${comment.user.role == 'Author'}">(Author)</span> says:
+        </p>
         <p th:text="${comment.comment}"></p>
     </div>
 
-    <!-- Add a form for users to submit new comments -->
     <div class="comment-form">
-        <form th:action="@{/books/addComment}" method="post">
+        <form th:action="@{../addComment}" method="post">
             <input type="hidden" name="bookId" th:value="${book.id}" />
             <label for="comment">Your Comment:</label>
             <input type="text" id="comment" name="comment" />
-            <button type="submit" class="comment-submit">Submit Comment</button>
+            <button type="submit" class="comment-submit" >Submit Comment</button>
         </form>
     </div>
 </div>

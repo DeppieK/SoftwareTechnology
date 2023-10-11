@@ -1,11 +1,13 @@
 package com.example.demo.book;
 import com.example.demo.User.UserEntity;
 import com.example.demo.User.UserEntityService;
+import com.example.demo.User.UserRepository;
+import com.example.demo.author.Author;
+import com.example.demo.author.AuthorRepository;
 import com.example.demo.cart.Cart;
 import com.example.demo.cart.CartService;
 import com.example.demo.comments.Comments;
 import com.example.demo.comments.CommentsService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.xml.stream.events.Comment;
 import java.util.List;
+import java.util.Optional;
+
 @Controller
-//@RestController
-//@RequestMapping(path = "api/v1/books")
+
 public class BookController {
 
     private final BookService bookService;
     private final BookSearchService bookSearchService;
     private final BookRepository bookRepository;
+    private final UserRepository userRepository;
+    private final AuthorRepository authorRepository;
     private final CartService cartService;
     private final CommentsService commentsService;
     private final UserEntityService userEntityService;
@@ -36,12 +40,14 @@ public class BookController {
             BookService bookService,
             BookSearchService bookSearchService,
             BookRepository bookRepository,
-            CartService cartService,
+            UserRepository userRepository, AuthorRepository authorRepository, CartService cartService,
             CommentsService commentsService,
             UserEntityService userEntityService) {
         this.bookService = bookService;
         this.bookSearchService = bookSearchService;
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
+        this.authorRepository = authorRepository;
         this.cartService = cartService;
         this.commentsService = commentsService;
         this.userEntityService = userEntityService;
@@ -68,23 +74,11 @@ public class BookController {
 
         return "bookDetails";
     }
-    @PostMapping("/books/addComment")
-    public String addComment(@RequestParam Long bookId, @RequestParam String commentText) {
-        // Retrieve the book based on the bookId (you'll need to implement this)
-        Book book = bookService.getBookById(bookId);
 
-        // Create a new Comment object
-        Comments comments = new Comments();
-        comments.setBook(book);
-        comments.setComment(commentText);
+    public String addCommentToBook(@RequestParam("bookId") Long bookId, @RequestParam("commentText") String commentText) throws ChangeSetPersister.NotFoundException, ChangeSetPersister.NotFoundException {
+        //commentsService.saveCommentForBook(bookId, commentText);
 
-        // Assuming you have a User object for the current user
-        // You can set the user who posted the comment here
-
-        // Save the comment using your CommentService
-        commentsService.saveComment(comments);
-
-        // Redirect back to the book details page or wherever you want
+        // Redirect to the book's page or wherever you want to go after adding a comment
         return "redirect:/books/" + bookId;
     }
 
@@ -137,9 +131,64 @@ public class BookController {
     @GetMapping("/myAccount")
     public String myAccount() {
 
-        return "myAcoount";
+        return "myAccount";
+    }
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "signIn";
     }
 
+    @PostMapping("/login")
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+        UserEntity user = userRepository.findByUsernameAndPassword(username, password);
+        Long userId = user.getId();
+        if (user != null) {
+            if ("user".equals(user.getRole())){
+                return "redirect:/user/" + userId + "/books";
+            }
+            else if ("Author".equals(user.getRole())){
 
+                return "redirect:/author/" + userId + "/books";
+            }
+            else{
+                return "redirect:/admin/" + userId + "/books";
+
+            }
+        } else {
+            model.addAttribute("error", "Invalid username or password");
+            return "signIn";
+        }
+    }
+    @GetMapping("/registration")
+    public String showRegistrationForm(Model model) {
+        UserEntity user = new UserEntity();
+        model.addAttribute("user", user);
+        return "signUp";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute UserEntity user, Model model) {
+        Optional<UserEntity> existingUserByUsername = userRepository.findByUsername(user.getUsername());
+        Optional<UserEntity> existingUserByEmail = userRepository.findByEmail(user.getEmail());
+
+        if (existingUserByUsername.isPresent() || existingUserByEmail.isPresent()) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Username or email already exists. Please choose a different one.");
+            System.out.println("Error");
+            return "signUp";
+
+        }else{
+            System.out.println("Yes");
+            userRepository.save(user);
+            if ("Author".equals(user.getRole())) {
+                Author author = new Author();
+                author.setUser(user);
+                authorRepository.save(author);
+            }
+        }
+        System.out.println("Nice");
+        return "redirect:/signIn";
+
+    }
 
 }

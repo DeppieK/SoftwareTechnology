@@ -117,11 +117,11 @@
             font-size: 16px;
             background-color: white;
             background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png");
-            background-position: 5px center; /* Adjust the horizontal position */
+            background-position: 5px center;
             background-repeat: no-repeat;
-            padding: 12px 20px 12px 30px; /* Adjust the right padding for the icon */
+            padding: 12px 20px 12px 30px;
             transition: width 0.4s ease-in-out;
-            background-size: 20px auto; /* Adjust the size of the icon */
+            background-size: 20px auto;
         }
 
         input[type=search]:focus {
@@ -139,12 +139,15 @@
         .books {
             margin: 0px 30px 0px 0px;
             text-align: center;
-            display: flex; /* Use flexbox to align images horizontally */
-            flex-wrap: wrap; /* Wrap images to the next row when necessary */
-            justify-content: flex-start; /* Align images to the left */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
         }
         .books li {
-            margin: 10px; /* Add margin around each book */
+            margin: 10px;
+            text-align: center;
+        }
+        #book-title{
             text-align: center;
         }
     </style>
@@ -190,7 +193,8 @@
 
             </td>
             <td>
-                <a th:href="${baseURL + '/cart'}" class="href"><img src="https://png2.cleanpng.com/sh/535017851c0794eab90a0aff986be805/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
+                <a th:if="${baseURL != ''}" th:href="${baseURL + '/cart'}" class="href"><img src="https://png2.cleanpng.com/sh/535017851c0794eab90a0aff986be805/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
+                <a th:if="${baseURL == ''}" th:href="${baseURL + '/signIn'}" class="href"><img src="https://png2.cleanpng.com/sh/535017851c0794eab90a0aff986be805/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
             </td>
 
         </tr>
@@ -210,7 +214,7 @@
             <a th:href="@{books/{bookId}(bookId = ${book.id})}">
                 <img th:src ="${book.photourl}"/>
             </a>
-            <p th:text="${book.title}"></p>
+            <p id="book-title" th:text="${book.title}"></p>
         </li>
     </ul>
 

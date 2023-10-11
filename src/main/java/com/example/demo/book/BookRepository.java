@@ -29,6 +29,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByPublisher(String publisher);
 
 
-
 }
 

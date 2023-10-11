@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+        /*Styling using css*/
         h2 {
             font-family: Arial, sans-serif;
             font-size: 35px;
@@ -22,16 +24,13 @@
             font-family: Arial, sans-serif;
             background-color:white;
         }
-        hr{
-            border: 0.5px solid black;
-            text-align:center;
-            margin-right: auto;
-        }
+
         header{
             margin: 0px 0px 0px 0px;
             background-color:#ffa434;
 
         }
+        /* Reset some styles to ensure proper alignment */
         ul, li {
             margin: 0;
             padding: 0;
@@ -58,39 +57,8 @@
             background-color: #ff6d1fd4;
 
         }
-
-        /* Style for the dropdown menu */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color:#ffa434;
-            z-index: 1; /* Ensure the dropdown appears above other content */
-        }
-
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-menu li {
-            display: block;
-        }
-
-        .dropdown-menu li a {
-            color: rgba(255, 255, 255, 0.76);
-            padding: 12px 22px;
-            display: block;
-            text-align: center;
-        }
-
-        /* Hover style for dropdown items */
-        .dropdown-menu li a:hover {
-            background-color: #ff6d1fd4;
-        }
-
         .active {
-            background-color: #ff6d1fd4;
+            background-color: #ff6d1fb8;
         }
         img{
             margin: 10px;
@@ -193,11 +161,34 @@
             margin: 0;
             background-color: white;
         }
-        .href_2 {
-            font-family: Arial, sans-serif;
-            color: black;
-            font-weight: normal;
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color:#ffa434;
+            z-index: 1; /* Ensure the dropdown appears above other content */
         }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            display: block;
+        }
+
+        .dropdown-menu li a {
+            color: rgba(255, 255, 255, 0.76);
+            padding: 12px 22px;
+            display: block;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #ff6d1fd4;
+        }
+
 
     </style>
 </head>
@@ -206,56 +197,82 @@
     <table>
         <tr>
             <td style = "font-size: 35px; color:white;">
-                <a th:href="${baseURL + '/books'}"  class="href"> e-Books</a>
+                <a th:href="@{/books}"  class="href"> e-Books</a>
             </td>
             <td>
-                <form th:action="${baseURL + '/books/search'}">
+                <form th:action="@{/books/search}">
                     <input type="search" placeholder="Search books, authors, ISBNs..." name = "query" >
                 </form>
+
             </td>
             <td>
                 <nav>
                     <ul>
                         <li class="hover">
-                            <a th:if="${baseURL == ''}" th:href="${baseURL + '/signIn'}" th:text="'Sign in'" class="active">Sign in</a>
-                            <a th:if="${baseURL != ''}" th:href="${baseURL + '/myAccount'}" th:text="'My Account'">My Account</a>
+                            <a th:href="@{/signIn}" th:text="'Sign in'" class = "active">Sign in</a>
                         </li>
                         <li class="dropdown">
                             <a class="hover">Genres</a>
                             <ul class="dropdown-menu">
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/romance'}" >Romance</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/romcom'}">RomComs</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/thriller'}">Thriller</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/dark'}">Dark</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/mystery'}">Mystery</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/fantasy'}">Fantasy</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/drama'}">Drama</a></li>
-                                <li class="hover"><a th:href="${baseURL + '/books/genre/biography'}">Biography</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = romance)}" >Romance</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = romcom)}">RomComs</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = thriller)}">Thriller</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = dark)}">Dark</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = mystery)}">Mystery</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = fantasy)}">Fantasy</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = drama)}">Drama</a></li>
+                                <li class="hover"><a th:href="@{/books/genre/{genre}(genre = biography)}">Biography</a></li>
                             </ul>
                         </li>
-                        <li class="hover"><a th:href="${baseURL + '/books'}" >Home</a></li>
+                        <li class="hover"><a th:href="@{/books}" >Home</a></li>
                     </ul>
                 </nav>
 
 
             </td>
             <td>
-                <a th:href="${baseURL + '/cart'}" class="href"><img src="https://png2.cleanpng.com/sh/535017851c0794eab90a0aff986be805/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
+                <a th:href="@{/signIn}" class="href"><img src="https://png2.cleanpng.com/sh/535017851c0794eab90a0aff986be805/L0KzQYm3VcIzN5h1h5H0aYP2gLBuTfUua5Dyhdd7Y3Wwc7F0kQV1baMygdV4boOwg7n2kQBqdpgye9N7dD32f7f7lBFzbV53RdZ4dIPogn7AhfIubKZnhNt3LUXlQIW6UfE2QGY5e9cBLkCzQIa9U8MxOWY3T6I5MUWzSYa7Vr5xdpg=/kisspng-e-commerce-computer-icons-shopping-cart-software-r-dotser-web-dublin-5b0431a5854ce6.000563301527001509546.png"style="width: 30px;height: 30px;"></a>
             </td>
+
         </tr>
     </table>
 
 </header>
-<div th:if="${param.error}">
-    Invalid username and password.
+<div class="center-container">
+    <div class="login-container">
+        <h2>User Login</h2>
+        <form th:action="@{/login}" method="POST">
+            <!-- error message -->
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Invalid username or
+                    password.</div>
+            </div>
+
+            <!-- logout message -->
+            <div th:if="${param.logout}">
+                <div class="alert alert-info">You have been logged out.</div>
+            </div>
+
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="form-group">
+      <span>New user? <a href="/static" th:href="@{/registration}">Register
+        here</a></span>
+        </div>
+        <br><br>
+        <div th:if="${error}" class="alert alert-danger">
+            <p  style="color: red;" th:text="${error}"></p>
+        </div>
+
+    </div>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/signIn}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
 </body>
 </html>

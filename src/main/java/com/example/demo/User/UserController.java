@@ -1,21 +1,22 @@
 package com.example.demo.User;
 
+import com.example.demo.author.AuthorRepository;
 import com.example.demo.book.Book;
 import com.example.demo.book.BookRepository;
 import com.example.demo.book.BookSearchService;
 import com.example.demo.book.BookService;
 import com.example.demo.cart.Cart;
+import com.example.demo.cart.CartRepository;
 import com.example.demo.cart.CartService;
 import com.example.demo.comments.Comments;
 import com.example.demo.comments.CommentsService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user/{userId}")
@@ -24,14 +25,17 @@ public class UserController {
     private final BookService bookService;
     private final BookSearchService bookSearchService;
     private final BookRepository bookRepository;
+    private final CartRepository cartRepository;
+
     private final CartService cartService;
     private final CommentsService commentsService;
     private final UserEntityService userEntityService;
 
-    public UserController(BookService bookService, BookSearchService bookSearchService, BookRepository bookRepository, CartService cartService, CommentsService commentsService, UserEntityService userEntityService) {
+    public UserController(BookService bookService, BookSearchService bookSearchService, BookRepository bookRepository, UserRepository userRepository, AuthorRepository authorRepository, CartRepository cartRepository, CartService cartService, CommentsService commentsService, UserEntityService userEntityService) {
         this.bookService = bookService;
         this.bookSearchService = bookSearchService;
         this.bookRepository = bookRepository;
+        this.cartRepository = cartRepository;
         this.cartService = cartService;
         this.commentsService = commentsService;
         this.userEntityService = userEntityService;
@@ -61,17 +65,13 @@ public class UserController {
 
         return "bookDetails";
     }
-    @PostMapping("/books/addComment")
-    public String addComment(@RequestParam Long bookId, @RequestParam String commentText,@PathVariable("userId") Long userId) {
-        Book book = bookService.getBookById(bookId);
-
-        Comments comments = new Comments();
-        comments.setBook(book);
-        comments.setComment(commentText);
-        //comments.setUserId(userId);
-
-        commentsService.saveComment(comments);
-
+    @PostMapping("/addComment")
+    public String addCommentToBook(@PathVariable("userId") Long userId,
+                                   @RequestParam("bookId") Long bookId,
+                                   @RequestParam("comment") String comment) throws ChangeSetPersister.NotFoundException {
+        Book bookToAdd = bookService.findBookById(bookId);
+        UserEntity userToAdd = userEntityService.findUserById(userId);
+        commentsService.addComment(userToAdd, bookToAdd, comment);
         return "redirect:/user/{userId}/books/" + bookId;
     }
 
@@ -106,41 +106,46 @@ public class UserController {
         model.addAttribute("books", books);
         return "genres";
     }
-    @GetMapping("/signIn")
-    public String signIn() {
 
-        return "signIn";
-    }
-    @GetMapping("/signUp")
-    public String signUp() {
 
-        return "signUp";
-    }
     @GetMapping("/logout")
     public String logout() {
 
         return "redirect:/books";
     }
     @GetMapping("/myAccount")
-    public String myAccount() {
-
-        return "myAcoount";
+    public String getUserDetails(@PathVariable("userId") Long userId, Model model) {
+        UserEntity user = userEntityService.findUserById(userId); // Replace with your actual service method
+        model.addAttribute("user", user);
+        return "myAccount";
     }
     @GetMapping("/cart")
-    public String cartList(Model model) {
-        List<Cart> cartItems = cartService.getCartItems();
+    public String viewCart(@PathVariable Long userId, Model model) {
+        // Fetch the cart items for the user with userId
+        List<Cart> cartItems = cartService.getCartItemsByUserId(userId);
+
+        // Calculate the total price
+        double totalPrice = cartItems.stream()
+                .mapToDouble(cartItem -> cartItem.getQuantity() * cartItem.getBook().getPrice())
+                .sum();
+
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice", totalPrice); // Add the total price to the model
         return "ShoppingCart";
     }
     @GetMapping("/checkout")
-    public String cartCheckout(){
-        return "checkout";
+    public String cartCheckout(Cart cartItems,Book book, Model model){
+
+        return "redirect:/user/{userId}/checkout";
     }
     @PostMapping("/addToCart")
-    public String addToCart(@RequestParam("bookId") Long bookId/*, HttpSession session*/,@RequestParam("quantity") Integer quantity) throws ChangeSetPersister.NotFoundException {
+    public String addToCart(
+            @PathVariable("userId") Long userId,
+            @RequestParam("bookId") Long bookId,
+            @RequestParam("quantity") Integer quantity) throws ChangeSetPersister.NotFoundException {
         Book bookToAdd = bookService.findBookById(bookId);
-        /*Customer customer = (Customer) session.getAttribute("customer");*/
-        cartService.addToCart(/*customer,*/ bookToAdd, quantity);
+        UserEntity userToAdd = userEntityService.findUserById(userId);
+        cartService.addToCart(userToAdd, bookToAdd, quantity);
 
         return "redirect:/user/{userId}/books/" + bookId;
     }

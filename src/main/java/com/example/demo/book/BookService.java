@@ -1,5 +1,6 @@
 package com.example.demo.book;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,11 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book findBookById(Long bookId) throws ChangeSetPersister.NotFoundException {
-        Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if (optionalBook.isPresent()) {
-            return optionalBook.get();
-        } else {
-            throw new ChangeSetPersister.NotFoundException();
-        }
+
+    public Book findBookById(Long id) {
+        // Use the Spring Data JPA repository to find a book by its ID
+        // Assuming that your BookRepository has a method named 'findById'
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
     }
-    public Book getBookById(Long bookId) {
-        Optional<Book> optionalBook = bookRepository.findById(bookId);
-        return optionalBook.orElse(null); // Handle the case where the book is not found
-    }
-
-
-
-
-
 }

@@ -1,6 +1,7 @@
 package com.example.demo.author;
 
 
+import com.example.demo.User.UserEntity;
 import com.example.demo.User.UserEntityService;
 import com.example.demo.book.Book;
 import com.example.demo.book.BookRepository;
@@ -10,8 +11,6 @@ import com.example.demo.cart.Cart;
 import com.example.demo.cart.CartService;
 import com.example.demo.comments.Comments;
 import com.example.demo.comments.CommentsService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,19 +65,11 @@ public class AuthorController {
 
         return "bookDetails";
     }
-    @PostMapping("/books/addComment")
-    public String addComment(@RequestParam Long bookId, @RequestParam String commentText,@PathVariable("userId") Long userId) {
-        // Retrieve the book based on the bookId (you'll need to implement this)
-        Book book = bookService.getBookById(bookId);
+    public String addCommentToBook(@RequestParam("bookId") Long bookId, @RequestParam("commentText") String commentText) throws ChangeSetPersister.NotFoundException, ChangeSetPersister.NotFoundException {
+        //commentsService.saveCommentForBook(bookId, commentText);
 
-        Comments comments = new Comments();
-        comments.setBook(book);
-        comments.setComment(commentText);
-        //comments.setUserId(userId);
-
-        commentsService.saveComment(comments);
-
-        return "redirect:/author/{userId}/books/" + bookId;
+        // Redirect to the book's page or wherever you want to go after adding a comment
+        return "redirect:author/{userId}/books/" + bookId;
     }
 
 
@@ -128,26 +119,46 @@ public class AuthorController {
         return "redirect:/books";
     }
     @GetMapping("/myAccount")
-    public String myAccount() {
-
-        return "myAcoount";
+    public String getUserDetails(@PathVariable("userId") Long userId, Model model) {
+        UserEntity user = userEntityService.findUserById(userId); // Replace with your actual service method
+        model.addAttribute("user", user);
+        return "myAccount";
     }
     @GetMapping("/cart")
     public String cartList(Model model) {
         List<Cart> cartItems = cartService.getCartItems();
+
+        // Calculate the total price
+        double totalPrice = cartItems.stream()
+                .mapToDouble(cartItem -> cartItem.getQuantity() * cartItem.getBook().getPrice())
+                .sum();
+
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice", totalPrice); // Add the total price to the model
         return "ShoppingCart";
     }
     @GetMapping("/checkout")
     public String cartCheckout(){
         return "checkout";
     }
-    @PostMapping("/addToCart")
-    public String addToCart(@RequestParam("bookId") Long bookId/*, HttpSession session*/,@RequestParam("quantity") Integer quantity) throws ChangeSetPersister.NotFoundException {
+    public String addToCart(
+            @PathVariable("userId") Long userId,
+            @RequestParam("bookId") Long bookId,
+            @RequestParam("quantity") Integer quantity) throws ChangeSetPersister.NotFoundException {
         Book bookToAdd = bookService.findBookById(bookId);
+        UserEntity userToAdd = userEntityService.findUserById(userId);
         /*Customer customer = (Customer) session.getAttribute("customer");*/
-        cartService.addToCart(/*customer,*/ bookToAdd, quantity);
+        cartService.addToCart(userToAdd, bookToAdd, quantity);
 
+        return "redirect:/author/{userId}/books/" + bookId;
+    }
+    @PostMapping("/addComment")
+    public String addCommentToBook(@PathVariable("userId") Long userId,
+                                   @RequestParam("bookId") Long bookId,
+                                   @RequestParam("comment") String comment) throws ChangeSetPersister.NotFoundException {
+        Book bookToAdd = bookService.findBookById(bookId);
+        UserEntity userToAdd = userEntityService.findUserById(userId);
+        commentsService.addComment(userToAdd, bookToAdd, comment);
         return "redirect:/author/{userId}/books/" + bookId;
     }
     @GetMapping("/removeFromCart")

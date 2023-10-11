@@ -9,7 +9,6 @@ import javax.xml.stream.events.Comment;
 
 @Repository
 public interface CommentsRepository extends JpaRepository<Comments, Long> {
-    List<Comments> findByBookId(Long bookId);
+    List<Comments> findByBookId(Long id);
 
-    List<Long> findUserIdByBookId(Long bookId);
 }
