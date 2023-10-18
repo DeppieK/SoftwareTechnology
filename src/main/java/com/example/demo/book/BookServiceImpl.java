@@ -10,10 +10,7 @@ import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookSearchService {
-
     private final BookRepository bookRepository;
-
-
     @Autowired
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;

@@ -38,7 +38,6 @@ public class CartService {
                 cartRepository.save(newCartItem);
             }
         } else {
-            // If the book is not in the cart, create a new cart item
             Cart newCartItem = new Cart();
             newCartItem.setUser(userToAdd);
             newCartItem.setBook(bookToAdd);
@@ -50,7 +49,7 @@ public class CartService {
         BigDecimal total = BigDecimal.ZERO;
 
         for (Cart cartItem : cartItems) {
-            BigDecimal itemPrice = BigDecimal.valueOf(cartItem.getBook().getPrice()); // Assuming you have a getPrice method in your Book class
+            BigDecimal itemPrice = BigDecimal.valueOf(cartItem.getBook().getPrice());
             int quantity = cartItem.getQuantity();
             total = total.add(itemPrice.multiply(BigDecimal.valueOf(quantity)));
         }

@@ -31,10 +31,8 @@ public class BookController {
     private final CommentsService commentsService;
     private final UserEntityService userEntityService;
 
-    @ModelAttribute("baseURL")
-    public String baseURL() {
-        return "";
-    }
+
+    //constructor
     @Autowired
     public BookController(
             BookService bookService,
@@ -53,12 +51,21 @@ public class BookController {
         this.userEntityService = userEntityService;
     }
 
+    //initializing the baseURL for this role
+    @ModelAttribute("baseURL")
+    public String baseURL() {
+        return "";
+    }
+
+    //main page
     @GetMapping("/books")
     public String listBooks(Model model){
         List<Book> books = bookService.getBook();
         model.addAttribute("books", books);
         return "welcomePage";
     }
+
+    //page with the book details
     @GetMapping("/books/{bookId}")
     public String bookDetail(@PathVariable("bookId") long bookId, Model model) throws ChangeSetPersister.NotFoundException {
         Book book = bookService.findBookById(bookId);
@@ -75,75 +82,53 @@ public class BookController {
         return "bookDetails";
     }
 
-    public String addCommentToBook(@RequestParam("bookId") Long bookId, @RequestParam("commentText") String commentText) throws ChangeSetPersister.NotFoundException, ChangeSetPersister.NotFoundException {
-        //commentsService.saveCommentForBook(bookId, commentText);
-
-        // Redirect to the book's page or wherever you want to go after adding a comment
-        return "redirect:/books/" + bookId;
-    }
-
-
+    //search method
     @GetMapping("books/search")
     public String searchBooks(@RequestParam(value = "query") String query, Model model){
         List<Book> books = bookSearchService.searchBooks(query);
         model.addAttribute("books",books);
         return "genres";
     }
+
+    //search books based on isbn
     @GetMapping("/books/isbn/{isbn}")
     public String findBooksByISBN(@PathVariable("isbn") Long isbn, Model model) {
         List<Book> books = bookRepository.findByISBN(isbn);
         model.addAttribute("books", books);
-        return "welcomePage"; // Replace with the appropriate view name
+        return "welcomePage";
     }
+
+    //display books based on a specific genre
     @GetMapping("/books/genre/{genre}")
     public String findBooksByGenre(@PathVariable("genre") String genre, Model model) {
         List<Book> books = bookRepository.findByGenre(genre);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
+
+    //display books based on a specific author
     @GetMapping("/books/author/{author}")
     public String findBooksByAuthor(@PathVariable("author") String author, Model model) {
         List<Book> books = bookRepository.findByAuthor(author);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
+
+    //display books based on a specific publisher
     @GetMapping("/books/publisher/{publisher}")
     public String findBooksByPublisher(@PathVariable("publisher") String publisher, Model model) {
         List<Book> books = bookRepository.findByPublisher(publisher);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
-    }
-    @GetMapping("/signIn")
-    public String signIn() {
-
-        return "signIn";
-    }
-    @GetMapping("/signUp")
-    public String signUp() {
-
-        return "signUp";
-    }
-    @GetMapping("/logout")
-    public String logout() {
-
-        return "redirect:/books";
-    }
-    @GetMapping("/myAccount")
-    public String myAccount() {
-
-        return "myAccount";
-    }
-    @GetMapping("/login")
-    public String showLoginForm() {
-        return "signIn";
+        return "genres";
     }
 
+    //sign in form
     @PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         UserEntity user = userRepository.findByUsernameAndPassword(username, password);
         Long userId = user.getId();
         if (user != null) {
-            if ("user".equals(user.getRole())){
+            if ("User".equals(user.getRole())){
                 return "redirect:/user/" + userId + "/books";
             }
             else if ("Author".equals(user.getRole())){
@@ -159,6 +144,19 @@ public class BookController {
             return "signIn";
         }
     }
+    @GetMapping("/signIn")
+    public String signIn() {
+
+        return "signIn";
+    }
+    //sign up form
+    @GetMapping("/signUp")
+    public String signUp() {
+
+        return "signUp";
+    }
+
+    //log out form
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         UserEntity user = new UserEntity();

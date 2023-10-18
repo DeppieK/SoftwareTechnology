@@ -34,6 +34,7 @@ public class Book {
     private String author;
     private String photourl;
 
+    //Constructors
     public Book() {
     }
 
@@ -63,6 +64,7 @@ public class Book {
 
     }
 
+    //Getters and Setters
     public Long getId() {
         return id;
     }
@@ -142,6 +144,7 @@ public class Book {
         this.photourl = photourl;
     }
 
+    //ToString
     @Override
     public String toString() {
         return "Book{" +

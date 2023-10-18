@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
     <title>e-Books</title>
     <style>
-        /*Styling using css*/
+
         h2 {
             font-family: Arial, sans-serif;
             font-size: 35px;
@@ -31,7 +31,7 @@
             background-color:#ffa434;
 
         }
-        /* Reset some styles to ensure proper alignment */
+
         ul, li {
             margin: 0;
             padding: 0;
@@ -59,14 +59,14 @@
 
         }
 
-        /* Style for the dropdown menu */
+
         .dropdown-menu {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
             background-color:#ffa434;
-            z-index: 1; /* Ensure the dropdown appears above other content */
+            z-index: 1;
         }
 
         .dropdown:hover .dropdown-menu {
@@ -84,7 +84,7 @@
             text-align: center;
         }
 
-        /* Hover style for dropdown items */
+
         .dropdown-menu li a:hover {
             background-color: #ff6d1fd4;
         }
@@ -117,11 +117,11 @@
             font-size: 16px;
             background-color: white;
             background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png");
-            background-position: 5px center; /* Adjust the horizontal position */
+            background-position: 5px center;
             background-repeat: no-repeat;
-            padding: 12px 20px 12px 30px; /* Adjust the right padding for the icon */
+            padding: 12px 20px 12px 30px;
             transition: width 0.4s ease-in-out;
-            background-size: 20px auto; /* Adjust the size of the icon */
+            background-size: 20px auto;
         }
 
         input[type=search]:focus {
@@ -136,7 +136,7 @@
 
         .container {
             background-color: #fff;
-            padding: 40px; /* Increased padding */
+            padding: 40px;
             width: 500px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -158,7 +158,7 @@
 
 
         .books li {
-            margin: 10px; /* Add margin around each book */
+            margin: 10px;
             text-align: center;
         }
         .logoutBtn{
@@ -230,12 +230,7 @@
         <h2>User Details</h2>
         <h3><a th:href="@{'/books'}" class = "logoutBtn href">Logout</a></h3>
         <table>
-            <!--
-            <tr>
-                <th>ID</th>
-                <td th:text="${user.id}"></td>
-            </tr>
-            -->
+
             <tr>
                 <th>Username</th>
                 <td th:text="${user.username}"></td>

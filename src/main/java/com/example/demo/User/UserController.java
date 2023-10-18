@@ -53,7 +53,7 @@ public class UserController {
     @GetMapping("/books/{bookId}")
     public String bookDetail(@PathVariable("bookId") long bookId, Model model) throws ChangeSetPersister.NotFoundException {
         Book book = bookService.findBookById(bookId);
-        //Long userId = commentsService.getUserIdByBookId(bookId); // Updated to Long
+        //Long userId = commentsService.getUserIdByBookId(bookId);
 
         List<Cart> cartItems = cartService.getCartItems();
         List<Comments> comments = commentsService.getCommentsByBookId(bookId);
@@ -115,7 +115,7 @@ public class UserController {
     }
     @GetMapping("/myAccount")
     public String getUserDetails(@PathVariable("userId") Long userId, Model model) {
-        UserEntity user = userEntityService.findUserById(userId); // Replace with your actual service method
+        UserEntity user = userEntityService.findUserById(userId);
         model.addAttribute("user", user);
         return "myAccount";
     }
@@ -130,7 +130,7 @@ public class UserController {
                 .sum();
 
         model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", totalPrice); // Add the total price to the model
+        model.addAttribute("totalPrice", totalPrice);
         return "ShoppingCart";
     }
     @GetMapping("/checkout")

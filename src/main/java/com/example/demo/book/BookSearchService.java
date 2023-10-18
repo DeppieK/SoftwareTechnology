@@ -8,6 +8,5 @@ import java.util.List;
 public interface BookSearchService {
     List<Book> searchBooks(String query);
 
-
     List<Book> searchBooksByISBN(Long isbn);
 }

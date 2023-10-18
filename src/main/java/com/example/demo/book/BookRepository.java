@@ -11,10 +11,7 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-
-
-        // Add more query methods as needed
-
+    //the query for the search method
         @Query("SELECT b FROM Book b WHERE " +
                 "LOWER(b.title) LIKE CONCAT('%', LOWER(:query), '%') OR " +
                 "LOWER(b.author) LIKE CONCAT('%', LOWER(:query), '%') OR " +

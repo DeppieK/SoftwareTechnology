@@ -347,7 +347,7 @@
         <p th:text="${comment.comment}"></p>
     </div>
 
-    <div class="comment-form">
+    <div class="comment-form"  th:if="${!(baseURL == '')}">
         <form th:action="@{../addComment}" method="post">
             <input type="hidden" name="bookId" th:value="${book.id}" />
             <label for="comment">Your Comment:</label>

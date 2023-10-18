@@ -23,8 +23,6 @@ public class UserEntityService {
         return userRepository.findAll();
     }
     public UserEntity findUserById(Long id) {
-        // Use the Spring Data JPA repository to find a book by its ID
-        // Assuming that your BookRepository has a method named 'findById'
         return (UserEntity) userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }

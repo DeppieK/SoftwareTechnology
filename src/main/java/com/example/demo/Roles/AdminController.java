@@ -62,12 +62,6 @@ public class AdminController {
 
         return "bookDetails";
     }
-    public String addCommentToBook(@RequestParam("bookId") Long bookId, @RequestParam("commentText") String commentText) throws ChangeSetPersister.NotFoundException, ChangeSetPersister.NotFoundException {
-        //commentsService.saveCommentForBook(bookId, commentText);
-
-        // Redirect to the book's page or wherever you want to go after adding a comment
-        return "redirect:/admin/{userId}/books/" + bookId;
-    }
 
 
     @GetMapping("books/search")
@@ -80,19 +74,19 @@ public class AdminController {
     public String findBooksByISBN(@PathVariable("isbn") Long isbn, Model model) {
         List<Book> books = bookRepository.findByISBN(isbn);
         model.addAttribute("books", books);
-        return "welcomePage"; // Replace with the appropriate view name
+        return "welcomePage";
     }
     @GetMapping("/books/genre/{genre}")
     public String findBooksByGenre(@PathVariable("genre") String genre, Model model) {
         List<Book> books = bookRepository.findByGenre(genre);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
     @GetMapping("/books/author/{author}")
     public String findBooksByAuthor(@PathVariable("author") String author, Model model) {
         List<Book> books = bookRepository.findByAuthor(author);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
     @PostMapping("/addComment")
     public String addCommentToBook(@PathVariable("userId") Long userId,
@@ -107,7 +101,7 @@ public class AdminController {
     public String findBooksByPublisher(@PathVariable("publisher") String publisher, Model model) {
         List<Book> books = bookRepository.findByPublisher(publisher);
         model.addAttribute("books", books);
-        return "genres"; // Replace with the appropriate view name
+        return "genres";
     }
     @GetMapping("/signIn")
     public String signIn() {
@@ -126,34 +120,34 @@ public class AdminController {
     }
     @GetMapping("/myAccount")
     public String getUserDetails(@PathVariable("userId") Long userId, Model model) {
-        UserEntity user = userEntityService.findUserById(userId); // Replace with your actual service method
+        UserEntity user = userEntityService.findUserById(userId);
         model.addAttribute("user", user);
         return "myAccount";
     }
     @GetMapping("/cart")
-    public String cartList(Model model) {
-        List<Cart> cartItems = cartService.getCartItems();
+    public String viewCart(@PathVariable Long userId, Model model) {
+        List<Cart> cartItems = cartService.getCartItemsByUserId(userId);
 
-        // Calculate the total price
         double totalPrice = cartItems.stream()
                 .mapToDouble(cartItem -> cartItem.getQuantity() * cartItem.getBook().getPrice())
                 .sum();
 
         model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", totalPrice); // Add the total price to the model
+        model.addAttribute("totalPrice", totalPrice);
         return "ShoppingCart";
     }
     @GetMapping("/checkout")
-    public String cartCheckout(){
-        return "checkout";
+    public String cartCheckout(Cart cartItems,Book book, Model model){
+
+        return "redirect:/user/{userId}/checkout";
     }
+    @PostMapping("/addToCart")
     public String addToCart(
             @PathVariable("userId") Long userId,
             @RequestParam("bookId") Long bookId,
             @RequestParam("quantity") Integer quantity) throws ChangeSetPersister.NotFoundException {
         Book bookToAdd = bookService.findBookById(bookId);
         UserEntity userToAdd = userEntityService.findUserById(userId);
-        /*Customer customer = (Customer) session.getAttribute("customer");*/
         cartService.addToCart(userToAdd, bookToAdd, quantity);
 
         return "redirect:/admin/{userId}/books/" + bookId;
@@ -165,5 +159,6 @@ public class AdminController {
 
         return "redirect:/admin/{userId}/cart";
     }
+
 
 }

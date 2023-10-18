@@ -2,10 +2,8 @@ package com.example.demo.author;
 
 import com.example.demo.User.UserEntity;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @Entity
-//@EntityScan(basePackages = "com.example.demo.author")
 
 @Table
 public class Author {
@@ -24,8 +22,11 @@ public class Author {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    //Constructors
     public Author() {
     }
+
+    //Getters and Setters
     public UserEntity getUser() {
         return user;
     }
@@ -44,6 +45,7 @@ public class Author {
     }
 
 
+    //ToString
     @Override
     public String toString() {
         return "Author{" +

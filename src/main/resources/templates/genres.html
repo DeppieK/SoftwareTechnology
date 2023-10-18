@@ -1,10 +1,10 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-  <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-  <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
   <title>e-Books</title>
   <style>
     h2 {
@@ -63,7 +63,7 @@
       top: 100%;
       left: 0;
       background-color:#ffa434;
-      z-index: 1; /* Ensure the dropdown appears above other content */
+      z-index: 1;
     }
 
     .dropdown:hover .dropdown-menu {
@@ -113,11 +113,11 @@
       font-size: 16px;
       background-color: white;
       background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png");
-      background-position: 5px center; /* Adjust the horizontal position */
+      background-position: 5px center;
       background-repeat: no-repeat;
-      padding: 12px 20px 12px 30px; /* Adjust the right padding for the icon */
+      padding: 12px 20px 12px 30px;
       transition: width 0.4s ease-in-out;
-      background-size: 20px auto; /* Adjust the size of the icon */
+      background-size: 20px auto;
     }
 
     input[type=search]:focus {
@@ -135,12 +135,12 @@
     .books {
       margin: 0px 30px 0px 0px;
       text-align: center;
-      display: flex; /* Use flexbox to align images horizontally */
-      flex-wrap: wrap; /* Wrap images to the next row when necessary */
-      justify-content: flex-start; /* Align images to the left */
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
     }
     .books li {
-      margin: 10px; /* Add margin around each book */
+      margin: 10px;
       text-align: center;
     }
     #book-title{

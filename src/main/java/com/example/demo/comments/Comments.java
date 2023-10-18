@@ -25,8 +25,8 @@ public class Comments {
     @JoinColumn
     private Book book;
 
-    @ManyToOne // Many comments can belong to one user
-    @JoinColumn(name = "user_id") // Define the foreign key column
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
     private int stars;
 
